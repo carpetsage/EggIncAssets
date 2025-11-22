@@ -24,11 +24,11 @@ jobs:
 
     - name: Clone carpetsage/egg repository
       run: |
-        git clone https://github.com/carpetsage/egg.git temp-egg-repo
+        git clone --depth 1 https://github.com/carpetsage/egg.git temp-egg-repo
 
     - name: Download custom eggs
+      working-directory: temp-egg-repo/periodicals
       run: |
-        cd temp-egg-repo
         go run main.go ei.pb.go download-customeggs
 
     - name: Copy egg PNG files to orig/egginc
@@ -46,9 +46,8 @@ jobs:
     - name: Clean up temporary repository
       run: rm -rf temp-egg-repo
 
-    - name: Make generate.sh executable and run it
+    - name: Run asset generate script
       run: |
-        chmod +x generate.sh
         ./generate.sh
 
     - name: Check for changes

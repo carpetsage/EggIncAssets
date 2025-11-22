@@ -6,6 +6,9 @@ on:
     - cron: '0 6 * * *'
   workflow_dispatch:
     # Allow manual triggering
+  push:
+    paths:
+      - '.github/workflows/fetch-customeggs.yml'
 
 jobs:
   fetch-and-update:

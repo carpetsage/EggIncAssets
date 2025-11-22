@@ -20,6 +20,10 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Clone carpetsage/egg repository
+      run: |
+        git clone --depth 1 https://github.com/carpetsage/egg.git temp-egg-repo
+
     - name: Set up zsh and imagemagick
       run: sudo apt-get install -y zsh imagemagick
 
@@ -27,10 +31,7 @@ jobs:
       uses: actions/setup-go@v6
       with:
         go-version: '>=1.24'
-
-    - name: Clone carpetsage/egg repository
-      run: |
-        git clone --depth 1 https://github.com/carpetsage/egg.git temp-egg-repo
+        cache-dependency-path: temp-egg-repo/periodicals/go.sum
 
     - name: Download custom eggs
       working-directory: temp-egg-repo/periodicals

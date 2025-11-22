@@ -13,32 +13,23 @@ jobs:
 
     steps:
     - name: Checkout EggIncAssets repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    - name: Set up Go
+      uses: actions/setup-go@v6
       with:
-        python-version: '3.x'
+        go-version: '>=1.24'
 
     - name: Clone carpetsage/egg repository
       run: |
         git clone https://github.com/carpetsage/egg.git temp-egg-repo
 
-    - name: Install Python dependencies for egg repo
-      run: |
-        cd temp-egg-repo
-        if [ -f requirements.txt ]; then
-          pip install -r requirements.txt
-        fi
-        # Install common dependencies that might be needed
-        pip install requests pillow
-
     - name: Download custom eggs
       run: |
         cd temp-egg-repo
-        python periodicals/updatePeriodicals.py download-customeggs
+        go run main.go ei.pb.go download-customeggs
 
     - name: Copy egg PNG files to orig/egginc
       run: |
